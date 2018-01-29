@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2020
+VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{E6C563F2-BDC2-4A24-ACBF-01715157DCBB}") = "LoriotAzureStreamAnalytics", "LoriotAzureStreamAnalytics\LoriotAzureStreamAnalytics.asaproj", "{24129473-F264-464D-913F-44F93E902784}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoriotAzureFunctions", "LoriotAzureFunctions\LoriotAzureFunctions.csproj", "{420322C3-D4BE-447E-B64A-BFD409EEE68F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoriotAlarmingFunctions", "LoriotAlarmingFunctions\LoriotAlarmingFunctions.csproj", "{1CE5875B-8C94-4B01-A2E4-E87E61894D37}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoriotAlarmingFunctions", "LoriotAlarmingFunctions\LoriotAlarmingFunctions.csproj", "{1CE5875B-8C94-4B01-A2E4-E87E61894D37}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TopicPropertyMiddleware", "TopicPropertyMiddleware\TopicPropertyMiddleware.csproj", "{A8C03A6B-4287-496C-8464-356D8955FF45}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{1CE5875B-8C94-4B01-A2E4-E87E61894D37}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1CE5875B-8C94-4B01-A2E4-E87E61894D37}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1CE5875B-8C94-4B01-A2E4-E87E61894D37}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8C03A6B-4287-496C-8464-356D8955FF45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8C03A6B-4287-496C-8464-356D8955FF45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8C03A6B-4287-496C-8464-356D8955FF45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8C03A6B-4287-496C-8464-356D8955FF45}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

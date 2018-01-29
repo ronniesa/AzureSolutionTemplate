@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "uniqueSolutionPrefix": {
-            "value": "kaosdk"
+            "value": "tasdpdsksu"
         },
         "pbiDatasetName": {
             "value": "livedataset"
@@ -12,9 +12,12 @@
             "value": "false"
         },
         "timeSeriesInsightDeploy": {
-            "value": "true"
+            "value": "false"
         },
         "alarmDeploy": {
+            "value": "false"
+        },
+        "dashboardDeploy":{
             "value": "true"
         }
     }

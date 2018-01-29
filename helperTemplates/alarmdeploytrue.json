@@ -24,8 +24,8 @@
     "variables": {
         "connectionServiceBusName": "[concat(parameters('alarmSolutionPrefix'),'connectionservicebus')]",
         "alarmConsumerGroupName": "[concat(parameters('alarmSolutionPrefix'),'alarmconsumergroup')]",
-        "serviceBusNamespaceName": "[concat(parameters('alarmSolutionPrefix'),'alarmservicebusnamespace')]",
-        "serviceBusQueueName": "[concat(parameters('alarmSolutionPrefix'),'alarmservicebusqueuename')]",
+        "serviceBusNamespaceName": "[concat(parameters('alarmSolutionPrefix'),'servicebusnamespace')]",
+        "serviceBusTopicName": "[concat(parameters('alarmSolutionPrefix'),'alarmservicebustopicname')]",
         "serviceBusReadRuleName": "[concat(parameters('alarmSolutionPrefix'),'alarmservicebusreadrule')]",
         "serviceBusWriteRuleName": "[concat(parameters('alarmSolutionPrefix'),'alarmservicebuswriterule')]",
         "serviceBusSubscription": "[concat(parameters('alarmSolutionPrefix'),'alarmservicebussubscription')]",
@@ -53,7 +53,7 @@
                     "id": "[concat('subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/servicebus')]"
                 },
                 "parameterValues": {
-                    "connectionString": "[listKeys(resourceId('Microsoft.ServiceBus/namespaces/topics/authorizationRules',variables('serviceBusNamespaceName'),variables('serviceBusQueueName'),variables('serviceBusReadRuleName')),'2017-04-01').primaryConnectionString]"
+                    "connectionString": "[listKeys(resourceId('Microsoft.ServiceBus/namespaces/topics/authorizationRules',variables('serviceBusNamespaceName'),variables('serviceBusTopicName'),variables('serviceBusReadRuleName')),'2017-04-01').primaryConnectionString]"
                 }
             },
             "dependsOn": []
@@ -283,7 +283,7 @@
                         }
                     },
                     "$serviceBusName": {
-                        "value": "[variables('serviceBusQueueName')]",
+                        "value": "[variables('serviceBusTopicName')]",
                         "type": "String"
                     },
                     "$serviceBusSubscription": {
