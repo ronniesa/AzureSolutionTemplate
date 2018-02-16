@@ -80,7 +80,7 @@
                         },
                         {
                             "name": "MESSAGE_PROPERTIES",
-                            "value": "deviceuid"
+                            "value": "deviceuid,temperature,humidity"
                         },
                         {
                             "name": "SERVICE_BUS",

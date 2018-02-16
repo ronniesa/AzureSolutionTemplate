@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "uniqueSolutionPrefix": {
-            "value": "tasdpdsksu"
+            "value": "uniquesolutionprefix"
         },
         "pbiDatasetName": {
             "value": "livedataset"
@@ -12,13 +12,14 @@
             "value": "false"
         },
         "timeSeriesInsightDeploy": {
-            "value": "false"
+            "value": "true"
         },
         "alarmDeploy": {
-            "value": "false"
-        },
-        "dashboardDeploy":{
             "value": "true"
         }
+    },
+    "dashboardDeploy": {
+        "value": "true"
+    }
     }
 }
