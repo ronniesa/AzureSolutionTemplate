@@ -20,6 +20,18 @@
     },
     "dashboardDeploy": {
         "value": "true"
+    },
+    "additionalParameters":{
+        "value":{
+            "deviceLifecycleQueueName": "lifecycle-queue",
+            "deviceLifecycleServiceBusNamespaceName": "[concat(parameters('uniqueSolutionPrefix'), 'bus')]",
+            "apiVersion": "2017-04-01",
+            "authorizationRulesListenName": "Listen",
+            "authorizationRulesSendName": "Send",
+            "iotHubName": "[concat(parameters('uniqueSolutionPrefix'), 'hub')]"
+        }
     }
-    }
+
+
+    
 }

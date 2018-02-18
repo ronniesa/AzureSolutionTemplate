@@ -93,6 +93,9 @@
             "metadata": {
                 "description": "Deploy a functionality enabling real-time dashboard visualization."
             }
+        },
+        "additionalParameters": {
+            "type": "object"
         }
     },
     "variables": {
@@ -141,12 +144,12 @@
         "serviceBusDashboardWriteRuleName": "[concat(parameters('uniqueSolutionPrefix'),'dashboardservicebuswriterule')]",
         "alarmQuery": "[if(equals(parameters('alarmDeploy'),'true'),'SELECT * \r\n INTO \r\n [alarmServiceBus] \r\n FROM \r\n [EventHub] \r\n WHERE  metadata.alarm = ''true'' \r\n ',' ')]",
         "powerBiQuery": "[if(equals(parameters('powerBIDeploy'),'true'),'SELECT MessageGUID, raw.EUI as eui, decoded.temperature as temperature, decoded.humidity as humidity, raw.ts as ts, EventEnqueuedUtcTime as time \r\n INTO \r\n [PowerBI] \r\n FROM \r\n [EventHub] \r\n WHERE metadata.sensorDecoder =''SensorDecoderWeather'' \r\n ',' ')]",
-        "dashboardQuery":"[if(equals(parameters('dashboardDeploy'),'true'),'SELECT decoded.temperature as temperature,decoded.humidity as humidity,* \r\n INTO \r\n [dashboardFunction] \r\n FROM \r\n [EventHub] \r\n WHERE metadata.streaming =''true'' \r\n ',' ')]",
+        "dashboardQuery": "[if(equals(parameters('dashboardDeploy'),'true'),'SELECT decoded.temperature as temperature,decoded.humidity as humidity,* \r\n INTO \r\n [dashboardFunction] \r\n FROM \r\n [EventHub] \r\n WHERE metadata.streaming =''true'' \r\n ',' ')]",
         "streamAnalyticsQuery": "[Concat('SELECT raw.EUI as eui, * \r\n INTO \r\n [CosmosDB] \r\n FROM \r\n [EventHub] \r\n SELECT MessageGUID, raw.EUI as eui, decoded.temperature as temperature, decoded.humidity as humidity, raw.ts as ts, EventEnqueuedUtcTime as time \r\n INTO \r\n [SQLDB] \r\n FROM \r\n [EventHub] \r\n WHERE  metadata.sensorDecoder = ''SensorDecoderWeather'' \r\n ',variables('powerBiQuery'),variables('alarmQuery'),variables('dashboardQuery'))]",
         "serviceBusAlarmSubscription": "[concat(parameters('uniqueSolutionPrefix'),'alarmservicebusalarmsubscription')]",
-        "serviceBusDashboardSubscription": "[concat(parameters('uniqueSolutionPrefix'),'dashboardservicebussubscription')]", 
+        "serviceBusDashboardSubscription": "[concat(parameters('uniqueSolutionPrefix'),'dashboardservicebussubscription')]",
         "functionAlarmingAppName": "[concat(parameters('uniqueSolutionPrefix'), 'alarmfunction')]",
-        "functionDashboardAppName":"[concat(parameters('uniqueSolutionPrefix'), 'dashboardfunction')]"
+        "functionDashboardAppName": "[concat(parameters('uniqueSolutionPrefix'), 'dashboardfunction')]"
     },
     "resources": [
         {
@@ -159,39 +162,7 @@
             "name": "[variables('iotHubName')]",
             "apiVersion": "2017-07-01",
             "location": "[variables('location')]",
-            "properties": {
-                "routing": {
-                    "endpoints": {
-                        "serviceBusQueues": [
-                            {
-                                "connectionString": "[listKeys(resourceId('Microsoft.ServiceBus/namespaces/queues/authorizationRules',variables('deviceLifecycleServiceBusNamespaceName'),variables('deviceLifecycleQueueName'),variables('authorizationRulesSendName')),'2015-08-01').primaryConnectionString]",
-                                "name": "DeviceLifecycleQueue"
-                            }
-                        ]
-                    },
-                    "routes": [
-                        {
-                            "name": "DeviceLifecycleRoute",
-                            "source": "DeviceLifecycleEvents",
-                            "endpointNames": [
-                                "DeviceLifecycleQueue"
-                            ],
-                            "isEnabled": true
-                        }
-                    ],
-                    "fallbackRoute": {
-                        "name": "$fallback",
-                        "source": "DeviceMessages",
-                        "endpointNames": [
-                            "events"
-                        ],
-                        "isEnabled": true
-                    }
-                }
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.ServiceBus/namespaces/queues/authorizationRules', variables('deviceLifecycleServiceBusNamespaceName'), variables('deviceLifecycleQueueName'), variables('authorizationRulesSendName'))]"
-            ]
+            "properties": {}
         },
         {
             "apiVersion": "2016-02-03",
@@ -202,56 +173,24 @@
             "type": "Microsoft.Devices/iotHubs/eventhubEndpoints/ConsumerGroups"
         },
         {
-            "type": "Microsoft.ServiceBus/namespaces",
-            "sku": {
-                "name": "Standard",
-                "tier": "Standard",
-                "capacity": 1
-            },
-            "properties": {},
-            "kind": "Messaging",
-            "name": "[variables('deviceLifecycleServiceBusNamespaceName')]",
-            "apiVersion": "[variables('apiVersion')]",
-            "location": "[variables('location')]"
-        },
-        {
-            "type": "Microsoft.ServiceBus/namespaces/queues",
-            "name": "[concat(variables('deviceLifecycleServiceBusNamespaceName'), '/', variables('deviceLifecycleQueueName'))]",
-            "apiVersion": "[variables('apiVersion')]",
-            "location": "[variables('location')]",
-            "properties": {},
+            "name": "LoriotDeploy",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2015-01-01",
             "dependsOn": [
-                "[resourceId('Microsoft.ServiceBus/namespaces', variables('deviceLifecycleServiceBusNamespaceName'))]"
-            ]
-        },
-        {
-            "type": "Microsoft.ServiceBus/namespaces/AuthorizationRules",
-            "name": "[concat(variables('deviceLifecycleServiceBusNamespaceName'), '/', variables('authorizationRulesListenName'))]",
-            "apiVersion": "[variables('apiVersion')]",
-            "location": "[variables('location')]",
+                 "[resourceId('Microsoft.Devices/iothubs/', variables('iotHubName')]"
+            ],
             "properties": {
-                "rights": [
-                    "Listen"
-                ]
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.ServiceBus/namespaces', variables('deviceLifecycleServiceBusNamespaceName'))]"
-            ]
-        },
-        {
-            "type": "Microsoft.ServiceBus/namespaces/queues/authorizationRules",
-            "name": "[concat(variables('deviceLifecycleServiceBusNamespaceName'), '/', variables('deviceLifecycleQueueName'), '/', variables('authorizationRulesSendName'))]",
-            "apiVersion": "[variables('apiVersion')]",
-            "location": "[variables('location')]",
-            "properties": {
-                "rights": [
-                    "Send"
-                ]
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.ServiceBus/namespaces', variables('deviceLifecycleServiceBusNamespaceName'))]",
-                "[resourceId('Microsoft.ServiceBus/namespaces/queues', variables('deviceLifecycleServiceBusNamespaceName'), variables('deviceLifecycleQueueName'))]"
-            ]
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[parameters('additionalParameters').uri]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "input": {
+                        "value": "[parameters('additionalParameters')]"
+                    }
+                }
+            }
         },
         {
             "type": "Microsoft.Storage/storageAccounts",
@@ -782,8 +721,7 @@
                     }
                 }
             }
-        }
-        ,
+        },
         {
             "name": "DashboardDeployment",
             "type": "Microsoft.Resources/deployments",

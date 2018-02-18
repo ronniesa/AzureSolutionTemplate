@@ -1,0 +1,113 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "input": {
+            "type": "object",
+            "metadata": {
+                "description": "Inputs of the template."
+            }
+        }
+    },
+    "variables": {
+        "deviceLifecycleQueueName": "[parameters('input').deviceLifecycleQueueName]",
+        "deviceLifecycleServiceBusNamespaceName": "[parameters('input').deviceLifecycleServiceBusNamespaceName]",
+        "apiVersion": "[parameters('input').apiVersion]",
+        "authorizationRulesListenName": "[parameters('input').authorizationRulesListenName]",
+        "authorizationRulesSendName": "[parameters('input').authorizationRulesSendName]",
+        "iotHubName": "[parameters('input').iotHubName]"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.ServiceBus/namespaces/queues",
+            "name": "[concat(variables('deviceLifecycleServiceBusNamespaceName'), '/', variables('deviceLifecycleQueueName'))]",
+            "apiVersion": "[variables('apiVersion')]",
+            "location": "[variables('location')]",
+            "properties": {},
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces', variables('deviceLifecycleServiceBusNamespaceName'))]"
+            ]
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/AuthorizationRules",
+            "name": "[concat(variables('deviceLifecycleServiceBusNamespaceName'), '/', variables('authorizationRulesListenName'))]",
+            "apiVersion": "[variables('apiVersion')]",
+            "location": "[variables('location')]",
+            "properties": {
+                "rights": [
+                    "Listen"
+                ]
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces', variables('deviceLifecycleServiceBusNamespaceName'))]"
+            ]
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/queues/authorizationRules",
+            "name": "[concat(variables('deviceLifecycleServiceBusNamespaceName'), '/', variables('deviceLifecycleQueueName'), '/', variables('authorizationRulesSendName'))]",
+            "apiVersion": "[variables('apiVersion')]",
+            "location": "[variables('location')]",
+            "properties": {
+                "rights": [
+                    "Send"
+                ]
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces', variables('deviceLifecycleServiceBusNamespaceName'))]",
+                "[resourceId('Microsoft.ServiceBus/namespaces/queues', variables('deviceLifecycleServiceBusNamespaceName'), variables('deviceLifecycleQueueName'))]"
+            ]
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces",
+            "sku": {
+                "name": "Standard",
+                "tier": "Standard",
+                "capacity": 1
+            },
+            "properties": {},
+            "kind": "Messaging",
+            "name": "[variables('deviceLifecycleServiceBusNamespaceName')]",
+            "apiVersion": "[variables('apiVersion')]",
+            "location": "[variables('location')]"
+        },
+        {
+            "type": "Microsoft.Devices/IotHubs",
+            "name": "[variables('iotHubName')]",
+            "apiVersion": "2017-07-01",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "routing": {
+                    "endpoints": {
+                        "serviceBusQueues": [
+                            {
+                                "connectionString": "[listKeys(resourceId('Microsoft.ServiceBus/namespaces/queues/authorizationRules',variables('deviceLifecycleServiceBusNamespaceName'),variables('deviceLifecycleQueueName'),variables('authorizationRulesSendName')),'2015-08-01').primaryConnectionString]",
+                                "name": "DeviceLifecycleQueue"
+                            }
+                        ]
+                    },
+                    "routes": [
+                        {
+                            "name": "DeviceLifecycleRoute",
+                            "source": "DeviceLifecycleEvents",
+                            "endpointNames": [
+                                "DeviceLifecycleQueue"
+                            ],
+                            "isEnabled": true
+                        }
+                    ],
+                    "fallbackRoute": {
+                        "name": "$fallback",
+                        "source": "DeviceMessages",
+                        "endpointNames": [
+                            "events"
+                        ],
+                        "isEnabled": true
+                    }
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/queues/authorizationRules', variables('deviceLifecycleServiceBusNamespaceName'), variables('deviceLifecycleQueueName'), variables('authorizationRulesSendName'))]"
+            ]
+        }
+    ]
+}
