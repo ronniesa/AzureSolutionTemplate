@@ -28,7 +28,8 @@
             "apiVersion": "2017-04-01",
             "authorizationRulesListenName": "Listen",
             "authorizationRulesSendName": "Send",
-            "iotHubName": "[concat(parameters('uniqueSolutionPrefix'), 'hub')]"
+            "iotHubName": "[concat(parameters('uniqueSolutionPrefix'), 'hub')]",
+            "uri":"https://raw.githubusercontent.com/Mandur/AzureSolutionTemplate/lite/helperTemplates/loriotconnector.json"
         }
     }
 

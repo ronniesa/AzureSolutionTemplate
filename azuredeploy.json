@@ -116,7 +116,7 @@
         "storageAccountType": "Standard_LRS",
         "gitUsername": "mandur",
         "gitRepoUrl": "[concat('https://github.com/',variables('gitUsername'),'/AzureSolutionTemplate.git')]",
-        "gitBranch": "dashboard",
+        "gitBranch": "lite",
         "eventHubName": "[concat(parameters('uniqueSolutionPrefix'), 'eventhub')]",
         "eventHubNamespaceName": "[concat(parameters('uniqueSolutionPrefix'), 'eventhubnamespace')]",
         "timeSeriesConsumerGroupName": "[concat(parameters('uniqueSolutionPrefix'),'timeseriesconsumergroup')]",
