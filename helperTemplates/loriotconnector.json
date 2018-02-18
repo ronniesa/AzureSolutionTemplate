@@ -22,7 +22,7 @@
             "type": "Microsoft.ServiceBus/namespaces/queues",
             "name": "[concat(variables('deviceLifecycleServiceBusNamespaceName'), '/', variables('deviceLifecycleQueueName'))]",
             "apiVersion": "[variables('apiVersion')]",
-            "location": "[variables('location')]",
+            "location": "[resourceGroup().location]",
             "properties": {},
             "dependsOn": [
                 "[resourceId('Microsoft.ServiceBus/namespaces', variables('deviceLifecycleServiceBusNamespaceName'))]"
@@ -32,7 +32,7 @@
             "type": "Microsoft.ServiceBus/namespaces/AuthorizationRules",
             "name": "[concat(variables('deviceLifecycleServiceBusNamespaceName'), '/', variables('authorizationRulesListenName'))]",
             "apiVersion": "[variables('apiVersion')]",
-            "location": "[variables('location')]",
+            "location": "[resourceGroup().location]",
             "properties": {
                 "rights": [
                     "Listen"
@@ -46,7 +46,7 @@
             "type": "Microsoft.ServiceBus/namespaces/queues/authorizationRules",
             "name": "[concat(variables('deviceLifecycleServiceBusNamespaceName'), '/', variables('deviceLifecycleQueueName'), '/', variables('authorizationRulesSendName'))]",
             "apiVersion": "[variables('apiVersion')]",
-            "location": "[variables('location')]",
+            "location": "[resourceGroup().location]",
             "properties": {
                 "rights": [
                     "Send"
@@ -68,7 +68,7 @@
             "kind": "Messaging",
             "name": "[variables('deviceLifecycleServiceBusNamespaceName')]",
             "apiVersion": "[variables('apiVersion')]",
-            "location": "[variables('location')]"
+            "location": "[resourceGroup().location]"
         },
         {
             "type": "Microsoft.Devices/IotHubs",

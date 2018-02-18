@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "uniqueSolutionPrefix": {
-            "value": "uniquesolutionprefix"
+            "value": "okasdlasd"
         },
         "pbiDatasetName": {
             "value": "livedataset"
@@ -16,21 +16,22 @@
         },
         "alarmDeploy": {
             "value": "true"
-        }
-    },
-    "dashboardDeploy": {
-        "value": "true"
-    },
-    "additionalParameters":{
-        "value":{
-            "deviceLifecycleQueueName": "lifecycle-queue",
-            "deviceLifecycleServiceBusNamespaceName": "[concat(parameters('uniqueSolutionPrefix'), 'bus')]",
-            "apiVersion": "2017-04-01",
-            "authorizationRulesListenName": "Listen",
-            "authorizationRulesSendName": "Send",
-            "iotHubName": "[concat(parameters('uniqueSolutionPrefix'), 'hub')]",
-            "uri":"https://raw.githubusercontent.com/Mandur/AzureSolutionTemplate/lite/helperTemplates/loriotconnector.json"
-        }
+        },
+        "dashboardDeploy": {
+            "value": "true"
+        },
+        "additionalParameters":{
+            "value":{
+                "deviceLifecycleQueueName": "lifecycle-queue",
+                "deviceLifecycleServiceBusNamespaceName": "[concat(parameters('uniqueSolutionPrefix'), 'bus')]",
+                "apiVersion": "2017-04-01",
+                "authorizationRulesListenName": "Listen",
+                "authorizationRulesSendName": "Send",
+                "iotHubName": "[concat(parameters('uniqueSolutionPrefix'), 'hub')]",
+                "uri":"https://raw.githubusercontent.com/Mandur/AzureSolutionTemplate/lite/helperTemplates/loriotconnector.json"
+            }
+    }
+  
     }
 
 
