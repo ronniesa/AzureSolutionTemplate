@@ -376,10 +376,7 @@
                             "name": "DEVICE_LIFECYCLE_QUEUE_NAME",
                             "value": "[variables('deviceLifecycleQueueName')]"
                         },
-                        {
-                            "name": "DEVICE_LIFECYCLE_CONNECTION_STRING",
-                            "value": "[listKeys(resourceId('Microsoft.ServiceBus/namespaces/AuthorizationRules',variables('deviceLifecycleServiceBusNamespaceName'),variables('authorizationRulesListenName')),'2015-08-01').primaryConnectionString]"
-                        },
+                    
                         {
                             "name": "EVENT_HUB_ROUTER_INPUT",
                             "value": "[concat('Endpoint=',reference(resourceId('Microsoft.Devices/IoTHubs',variables('iotHubName'))).eventHubEndpoints.events.endpoint,';EntityPath=',variables('iotHubName'),';SharedAccessKeyName=iothubowner;SharedAccessKey=',listKeys(resourceId('Microsoft.Devices/IotHubs',variables('iotHubName')),'2017-01-19').value[0].primaryKey)]"

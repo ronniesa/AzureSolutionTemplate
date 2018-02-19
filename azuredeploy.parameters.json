@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "uniqueSolutionPrefix": {
-            "value": "okasdlasd"
+            "value": "asdpli"
         },
         "pbiDatasetName": {
             "value": "livedataset"
@@ -12,22 +12,23 @@
             "value": "false"
         },
         "timeSeriesInsightDeploy": {
-            "value": "true"
+            "value": "false"
         },
         "alarmDeploy": {
-            "value": "true"
+            "value": "false"
         },
         "dashboardDeploy": {
-            "value": "true"
+            "value": "false"
         },
         "additionalParameters":{
             "value":{
                 "deviceLifecycleQueueName": "lifecycle-queue",
-                "deviceLifecycleServiceBusNamespaceName": "[concat(parameters('uniqueSolutionPrefix'), 'bus')]",
+                "deviceLifecycleServiceBusNamespaceName": "adsdoubus",
                 "apiVersion": "2017-04-01",
                 "authorizationRulesListenName": "Listen",
                 "authorizationRulesSendName": "Send",
-                "iotHubName": "[concat(parameters('uniqueSolutionPrefix'), 'hub')]",
+                "iotHubName": "adsdouhub",
+                "uniqueSolutionPrefix":"[parameters('uniqueSolutionPrefix')]",
                 "uri":"https://raw.githubusercontent.com/Mandur/AzureSolutionTemplate/lite/helperTemplates/loriotconnector.json"
             }
     }
