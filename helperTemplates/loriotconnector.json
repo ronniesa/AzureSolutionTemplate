@@ -11,11 +11,21 @@
     },
     "variables": {
         "deviceLifecycleQueueName": "[parameters('input').deviceLifecycleQueueName]",
-        "deviceLifecycleServiceBusNamespaceName": "[parameters('input').deviceLifecycleServiceBusNamespaceName]",
+        "deviceLifecycleServiceBusNamespaceName": "[concat(parameters('input').uniqueSolutionPrefix,'bus')]",
         "apiVersion": "[parameters('input').apiVersion]",
         "authorizationRulesListenName": "[parameters('input').authorizationRulesListenName]",
         "authorizationRulesSendName": "[parameters('input').authorizationRulesSendName]",
-        "iotHubName": "[parameters('input').iotHubName]"
+        "iotHubName": "[concat(parameters('input').uniqueSolutionPrefix,'bus')]",
+        "functionAppName": "[concat(parameters('input').uniqueSolutionPrefix,'lifecyclefunction']",
+        "hostingPlanName": "[concat(parameters('uniqueSolutionPrefix'), 'plan')]",
+        "storageAccountName": "[concat(parameters('uniqueSolutionPrefix'), 'storage')]",
+        "storageAccountId": "[concat(resourceGroup().id, '/providers/', 'Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]",
+        "deviceLifecycleImportTimer": "0 */5 * * * *",
+        "loriotAppId": "[parameters('input').loriotAppId]",
+        "loriotApiKey": "[parameters('input').loriotApiKey]",
+        "loriotApiUrl": "[parameters('input').loriotApiUrl]",
+        "gitRepoUrl":"[parameters('input').gitRepoUrl]",
+        "gitBranch":"[parameters('input').gitBranch]"
     },
     "resources": [
         {
@@ -75,7 +85,7 @@
             "name": "[variables('iotHubName')]",
             "apiVersion": "2017-07-01",
             "location": "[resourceGroup().location]",
-            "sku":"[reference(variables('iotHubName')).sku]",
+            "sku": "[reference(variables('iotHubName')).sku]",
             "properties": {
                 "routing": {
                     "endpoints": {
@@ -109,6 +119,72 @@
             "dependsOn": [
                 "[resourceId('Microsoft.ServiceBus/namespaces/queues/authorizationRules', variables('deviceLifecycleServiceBusNamespaceName'), variables('deviceLifecycleQueueName'), variables('authorizationRulesSendName'))]"
             ]
+        },
+        {
+            "apiVersion": "2016-08-01",
+            "type": "Microsoft.Web/sites",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/queues/authorizationRules', variables('deviceLifecycleServiceBusNamespaceName'), variables('deviceLifecycleQueueName'), variables('authorizationRulesSendName'))]"
+            ],
+            "resources": [
+                {
+                    "apiVersion": "2016-08-01",
+                    "name": "web",
+                    "type": "sourcecontrols",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Web/sites', variables('functionAppName'))]"
+                    ],
+                    "properties": {
+                        "repoUrl": "[variables('gitRepoUrl')]",
+                        "branch": "[variables('gitBranch')]",
+                        "IsManualIntegration": true
+                    }
+                }
+            ],
+            "name": "[variables('functionAppName')]",
+            "location": "[resourceGroup().location]",
+            "kind": "functionapp",
+            "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]",
+            "siteConfig": {
+                "appSettings": [
+                    {
+                        "name": "AzureWebJobsDashboard",
+                        "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';AccountKey=', listKeys(variables('storageAccountId'),'2015-05-01-preview').key1)]"
+                    },
+                    {
+                        "name": "AzureWebJobsStorage",
+                        "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';AccountKey=', listKeys(variables('storageAccountId'),'2015-05-01-preview').key1)]"
+                    },
+                    {
+                        "name": "FUNCTIONS_EXTENSION_VERSION",
+                        "value": "~1"
+                    },
+                    {
+                        "name": "LORIOT_API_KEY",
+                        "value": "[parameters('loriotApiKey')]"
+                    },
+                    {
+                        "name": "LORIOT_APP_ID",
+                        "value": "[parameters('loriotAppId')]"
+                    },
+                    {
+                        "name": "LORIOT_API_URL",
+                        "value": "[parameters('loriotApiUrl')]"
+                    },
+                    {
+                        "name": "PROJECT",
+                        "value": "src/LoriotSyncFunctions/SyncFunctions.csproj"
+                    },
+                    {
+                        "name": "DEVICE_LIFECYCLE_IMPORT_TIMER",
+                        "value": "[variables('deviceLifecycleImportTimer')]"
+                    },
+                    {
+                        "name": "DEVICE_LIFECYCLE_QUEUE_NAME",
+                        "value": "[variables('deviceLifecycleQueueName')]"
+                    }
+                ]
+            }
         }
     ]
 }

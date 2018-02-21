@@ -8,27 +8,6 @@
                 "description": "Prefix used for resource names. Should be unique as this will also be used for domain names."
             }
         },
-        "loriotAppId": {
-            "type": "string",
-            "defaultValue": "",
-            "metadata": {
-                "description": "The LORIOT App Id that can be found in the LORIOT portal."
-            }
-        },
-        "loriotApiKey": {
-            "type": "string",
-            "defaultValue": "",
-            "metadata": {
-                "description": "The LORIOT API Key that can be found in the LORIOT portal under <portal-url>/account/apikeys."
-            }
-        },
-        "loriotApiUrl": {
-            "type": "string",
-            "defaultValue": "",
-            "metadata": {
-                "description": "The LORIOT Network Server Management API URL matching to the location of the app."
-            }
-        },
         "pbiDatasetName": {
             "type": "string",
             "minLength": 3,
@@ -103,9 +82,6 @@
         "location": "[resourceGroup().location]",
         "iotHubName": "[concat(parameters('uniqueSolutionPrefix'), 'hub')]",
         "iotHubOwnerPolicyName": "iothubowner",
-        "deviceLifecycleServiceBusNamespaceName": "[concat(parameters('uniqueSolutionPrefix'), 'bus')]",
-        "deviceLifecycleQueueName": "lifecycle-queue",
-        "deviceLifecycleImportTimer": "0 */5 * * * *",
         "iotHubConsumerGroupName": "router",
         "authorizationRulesListenName": "Listen",
         "authorizationRulesSendName": "Send",
@@ -353,29 +329,10 @@
                             "value": "6.5.0"
                         },
                         {
-                            "name": "LORIOT_API_KEY",
-                            "value": "[parameters('loriotApiKey')]"
-                        },
-                        {
-                            "name": "LORIOT_APP_ID",
-                            "value": "[parameters('loriotAppId')]"
-                        },
-                        {
-                            "name": "LORIOT_API_URL",
-                            "value": "[parameters('loriotApiUrl')]"
-                        },
-                        {
                             "name": "IOT_HUB_OWNER_CONNECTION_STRING",
                             "value": "[concat('HostName=', variables('iotHubName'), '.azure-devices.net;SharedAccessKeyName=', variables('iotHubOwnerPolicyName'), ';SharedAccessKey=', listKeys(resourceId('Microsoft.Devices/IotHubs/IotHubKeys', variables('iotHubName'), variables('iotHubOwnerPolicyName')), '2017-01-19').primaryKey)]"
                         },
-                        {
-                            "name": "DEVICE_LIFECYCLE_IMPORT_TIMER",
-                            "value": "[variables('deviceLifecycleImportTimer')]"
-                        },
-                        {
-                            "name": "DEVICE_LIFECYCLE_QUEUE_NAME",
-                            "value": "[variables('deviceLifecycleQueueName')]"
-                        },
+                     
                     
                         {
                             "name": "EVENT_HUB_ROUTER_INPUT",

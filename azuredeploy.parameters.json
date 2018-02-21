@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "uniqueSolutionPrefix": {
-            "value": "asdpli"
+            "value": "asaodkai"
         },
         "pbiDatasetName": {
             "value": "livedataset"
@@ -23,13 +23,16 @@
         "additionalParameters":{
             "value":{
                 "deviceLifecycleQueueName": "lifecycle-queue",
-                "deviceLifecycleServiceBusNamespaceName": "adsdoubus",
                 "apiVersion": "2017-04-01",
                 "authorizationRulesListenName": "Listen",
                 "authorizationRulesSendName": "Send",
-                "iotHubName": "adsdouhub",
                 "uniqueSolutionPrefix":"[parameters('uniqueSolutionPrefix')]",
-                "uri":"https://raw.githubusercontent.com/Mandur/AzureSolutionTemplate/lite/helperTemplates/loriotconnector.json"
+                "uri":"https://raw.githubusercontent.com/Mandur/AzureSolutionTemplate/lite/helperTemplates/loriotconnector.json",
+                "gitRepoUrl":"https://github.com/mandur/AzureSolutionTemplate.git",
+                "gitRepoBranch":"lite",
+                "loriotAppId":"",
+                "loriotApiKey":"",
+                "loriotApiUrl":""        
             }
     }
   
