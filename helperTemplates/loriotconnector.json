@@ -25,7 +25,8 @@
         "loriotApiKey": "[parameters('input').loriotApiKey]",
         "loriotApiUrl": "[parameters('input').loriotApiUrl]",
         "gitRepoUrl":"[parameters('input').gitRepoUrl]",
-        "gitBranch":"[parameters('input').gitBranch]"
+        "gitBranch":"[parameters('input').gitBranch]",
+        "serverFarmId":"[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]"
     },
     "resources": [
         {
