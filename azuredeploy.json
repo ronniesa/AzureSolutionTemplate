@@ -153,7 +153,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2015-01-01",
             "dependsOn": [
-                 "[resourceId('Microsoft.Devices/iothubs/', variables('iotHubName'))]"
+                "[resourceId('Microsoft.Devices/iothubs/', variables('iotHubName'))]"
             ],
             "properties": {
                 "mode": "Incremental",
@@ -332,8 +332,6 @@
                             "name": "IOT_HUB_OWNER_CONNECTION_STRING",
                             "value": "[concat('HostName=', variables('iotHubName'), '.azure-devices.net;SharedAccessKeyName=', variables('iotHubOwnerPolicyName'), ';SharedAccessKey=', listKeys(resourceId('Microsoft.Devices/IotHubs/IotHubKeys', variables('iotHubName'), variables('iotHubOwnerPolicyName')), '2017-01-19').primaryKey)]"
                         },
-                     
-                    
                         {
                             "name": "EVENT_HUB_ROUTER_INPUT",
                             "value": "[concat('Endpoint=',reference(resourceId('Microsoft.Devices/IoTHubs',variables('iotHubName'))).eventHubEndpoints.events.endpoint,';EntityPath=',variables('iotHubName'),';SharedAccessKeyName=iothubowner;SharedAccessKey=',listKeys(resourceId('Microsoft.Devices/IotHubs',variables('iotHubName')),'2017-01-19').value[0].primaryKey)]"
