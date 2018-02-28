@@ -144,7 +144,7 @@
             "name": "[variables('functionAppName')]",
             "location": "[resourceGroup().location]",
             "kind": "functionapp",
-            "serverFarmId": "[reference(resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName')))]",
+            "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]",
             "siteConfig": {
                 "appSettings": [
                     {
