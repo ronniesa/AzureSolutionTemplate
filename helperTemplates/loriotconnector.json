@@ -145,47 +145,47 @@
             "location": "[resourceGroup().location]",
             "kind": "functionapp",
             "properties": {
-                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]"
-            },
-            "siteConfig": {
-                "appSettings": [
-                    {
-                        "name": "AzureWebJobsDashboard",
-                        "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';AccountKey=', listKeys(variables('storageAccountId'),'2015-05-01-preview').key1)]"
-                    },
-                    {
-                        "name": "AzureWebJobsStorage",
-                        "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';AccountKey=', listKeys(variables('storageAccountId'),'2015-05-01-preview').key1)]"
-                    },
-                    {
-                        "name": "FUNCTIONS_EXTENSION_VERSION",
-                        "value": "~1"
-                    },
-                    {
-                        "name": "LORIOT_API_KEY",
-                        "value": "[parameters('loriotApiKey')]"
-                    },
-                    {
-                        "name": "LORIOT_APP_ID",
-                        "value": "[parameters('loriotAppId')]"
-                    },
-                    {
-                        "name": "LORIOT_API_URL",
-                        "value": "[parameters('loriotApiUrl')]"
-                    },
-                    {
-                        "name": "PROJECT",
-                        "value": "src/LoriotSyncFunctions/SyncFunctions.csproj"
-                    },
-                    {
-                        "name": "DEVICE_LIFECYCLE_IMPORT_TIMER",
-                        "value": "[variables('deviceLifecycleImportTimer')]"
-                    },
-                    {
-                        "name": "DEVICE_LIFECYCLE_QUEUE_NAME",
-                        "value": "[variables('deviceLifecycleQueueName')]"
-                    }
-                ]
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]",
+                "siteConfig": {
+                    "appSettings": [
+                        {
+                            "name": "AzureWebJobsDashboard",
+                            "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';AccountKey=', listKeys(variables('storageAccountId'),'2015-05-01-preview').key1)]"
+                        },
+                        {
+                            "name": "AzureWebJobsStorage",
+                            "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';AccountKey=', listKeys(variables('storageAccountId'),'2015-05-01-preview').key1)]"
+                        },
+                        {
+                            "name": "FUNCTIONS_EXTENSION_VERSION",
+                            "value": "~1"
+                        },
+                        {
+                            "name": "LORIOT_API_KEY",
+                            "value": "[parameters('loriotApiKey')]"
+                        },
+                        {
+                            "name": "LORIOT_APP_ID",
+                            "value": "[parameters('loriotAppId')]"
+                        },
+                        {
+                            "name": "LORIOT_API_URL",
+                            "value": "[parameters('loriotApiUrl')]"
+                        },
+                        {
+                            "name": "PROJECT",
+                            "value": "src/LoriotSyncFunctions/SyncFunctions.csproj"
+                        },
+                        {
+                            "name": "DEVICE_LIFECYCLE_IMPORT_TIMER",
+                            "value": "[variables('deviceLifecycleImportTimer')]"
+                        },
+                        {
+                            "name": "DEVICE_LIFECYCLE_QUEUE_NAME",
+                            "value": "[variables('deviceLifecycleQueueName')]"
+                        }
+                    ]
+                }
             }
         }
     ]
