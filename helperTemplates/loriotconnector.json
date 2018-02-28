@@ -16,7 +16,7 @@
         "authorizationRulesListenName": "[parameters('input').authorizationRulesListenName]",
         "authorizationRulesSendName": "[parameters('input').authorizationRulesSendName]",
         "iotHubName": "[concat(parameters('input').uniqueSolutionPrefix,'bus')]",
-        "functionAppName": "[concat(parameters('input').uniqueSolutionPrefix,'lifecyclefunction']",
+        "functionAppName": "[concat(parameters('input').uniqueSolutionPrefix,'lifecyclefunction')]",
         "hostingPlanName": "[concat(parameters('input').uniqueSolutionPrefix, 'plan')]",
         "storageAccountName": "[concat(parameters('input').uniqueSolutionPrefix, 'storage')]",
         "storageAccountId": "[concat(resourceGroup().id, '/providers/', 'Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]",
