@@ -25,7 +25,7 @@
         "loriotApiKey": "[parameters('input').loriotApiKey]",
         "loriotApiUrl": "[parameters('input').loriotApiUrl]",
         "gitRepoUrl": "[parameters('input').gitRepoUrl]",
-        "gitBranch": "[parameters('input').gitBranch]"
+        "gitBranch": "[parameters('input').gitRepoBranch]"
     },
     "resources": [
         {
