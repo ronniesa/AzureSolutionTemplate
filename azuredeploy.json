@@ -100,7 +100,7 @@
         "storageAccountName": "[concat(parameters('uniqueSolutionPrefix'), 'storage')]",
         "storageAccountId": "[concat(resourceGroup().id, '/providers/', 'Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]",
         "storageAccountType": "Standard_LRS",
-        "gitUsername": "loriot",
+        "gitUsername": "ronniesa",
         "gitRepoUrl": "[concat('https://github.com/',variables('gitUsername'),'/AzureSolutionTemplate.git')]",
         "gitBranch": "master",
         "eventHubName": "[concat(parameters('uniqueSolutionPrefix'), 'eventhub')]",
